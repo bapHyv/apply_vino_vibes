@@ -1,31 +1,43 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import FirstSlide from './components/FirstSlide.vue'
+import Questions from './components/Questions.vue'
+import LastSlide from './components/LastSlide.vue'
 
-const show = ref(true)
-const cardNb = ref(1)
-const answer = ref('')
+const dsplInfo = ref({
+  slideNb: 1,
+  arrayIndex: 0,
+  answer: '',
+  triggerAnimation: false,
+})
+
+const computedSlideNb = computed(() => dsplInfo.value.slideNb)
 
 const validate = () => {
-  show.value = !show.value
-  cardNb.value++
-  answer.value = ''
+  dsplInfo.value.slideNb++
+  dsplInfo.value.answer = ''
+  dsplInfo.value.triggerAnimation = true
+  dsplInfo.value.triggerAnimation = false
+  dsplInfo.value.triggerAnimation = true
 }
 
 const toggle = () => {
-  if (cardNb.value === 1 && answer.value === '') {
-    show.value = !show.value
-    cardNb.value++
-  }
-  if (cardNb.value === 2 && answer.value === 'pop') {
+  if (dsplInfo.value.slideNb === 1 && dsplInfo.value.answer === '') {
     validate()
   }
-  if (cardNb.value === 3 && answer.value === 'Dionysos') {
+  if (dsplInfo.value.slideNb === 2 && dsplInfo.value.answer === 'pop') {
     validate()
+    dsplInfo.value.arrayIndex++
   }
-  if (cardNb.value === 4 && answer.value === 'v-if') {
+  if (dsplInfo.value.slideNb === 3 && dsplInfo.value.answer === 'Dionysos') {
     validate()
+    dsplInfo.value.arrayIndex++
   }
-  if (cardNb.value === 5 && answer.value === 'Bordeaux') {
+  if (dsplInfo.value.slideNb === 4 && dsplInfo.value.answer === 'v-if') {
+    validate()
+    dsplInfo.value.arrayIndex++
+  }
+  if (dsplInfo.value.slideNb === 5 && dsplInfo.value.answer === 'Bordeaux') {
     validate()
   }
 }
@@ -33,268 +45,38 @@ const toggle = () => {
 
 <template>
   <Transition name="slide">
-    <section v-if="show && cardNb === 1" class="content-container">
-      <p>Vous chercher à recruter un développeur web?</p>
-      <p>Commencez ce quiz de 4 questions pour obtenir mes informations !</p>
-      <p>
-        Si vous ne souhaitez pas jouer le jeu, appuyez sur annuler pour
-        télécharger un dossier zip qui contient mon CV, ma lettre de motivation,
-        une lettre de recommandation et mes disponibilités
-      </p>
-      <div class="btn-container">
-        <button @click="toggle()">Commencer</button>
-        <button>Annuler</button>
-      </div>
+    <section v-if="dsplInfo.slideNb === 1" class="content-container">
+      <FirstSlide :dsplInfo="dsplInfo" :validate="validate" :toggle="toggle" />
+    </section>
+  </Transition>
+
+  <Transition appear name="slide">
+    <section v-if="dsplInfo.slideNb === 2" class="content-container">
+      <Questions :dsplInfo="dsplInfo" :validate="validate" :toggle="toggle" />
+    </section>
+  </Transition>
+
+  <Transition appear name="slide">
+    <section v-if="dsplInfo.slideNb === 3" class="content-container">
+      <Questions :dsplInfo="dsplInfo" :validate="validate" :toggle="toggle" />
+    </section>
+  </Transition>
+
+  <Transition appear name="slide">
+    <section v-if="dsplInfo.slideNb === 4" class="content-container">
+      <Questions :dsplInfo="dsplInfo" :validate="validate" :toggle="toggle" />
+    </section>
+  </Transition>
+
+  <Transition appear name="slide">
+    <section v-if="dsplInfo.slideNb === 5" class="content-container">
+      <Questions :dsplInfo="dsplInfo" :validate="validate" :toggle="toggle" />
     </section>
   </Transition>
 
   <Transition name="slide">
-    <section v-if="!show && cardNb === 2" class="content-container">
-      <p>SUPER !! Vous avez donc envie de faire ce quiz !</p>
-      <p>1ère question pour récupérer mon CV!</p>
-      <p>
-        Quelle est la méthode JS qui supprime le dernier élément d'un tableau et
-        le renvoie?
-      </p>
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="push"
-          id="push"
-          value="push"
-        />
-        <label for="push">push()</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="shift"
-          id="shift"
-          value="shift"
-        />
-        <label for="shift">shift()</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input type="radio" v-model="answer" name="pop" id="pop" value="pop" />
-        <label for="pop">pop()</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="unshift"
-          id="unshift"
-          value="unshift"
-        />
-        <label for="unshift">unshift()</label>
-      </div>
-
-      <h1 v-show="answer">Your answer: {{ answer }}</h1>
-
-      <div class="btn-container">
-        <button @click="toggle()">Valider</button>
-      </div>
-    </section>
-  </Transition>
-
-  <Transition name="slide">
-    <section v-if="show && cardNb === 3" class="content-container">
-      <p>
-        2ème question pour récupérer ma lettre de motivation !
-      </p>
-      <p>
-        Quel est le nom du dieu grec du vin et de la fête?
-      </p>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="Zeus"
-          id="Zeus"
-          value="Zeus"
-        />
-        <label for="Zeus">Zeus</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="Dionysos"
-          id="Dionysos"
-          value="Dionysos"
-        />
-        <label for="Dionysos">Dionysos</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="Eros"
-          id="Eros"
-          value="Eros"
-        />
-        <label for="Eros">Eros</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="v-if"
-          id="Poseidon"
-          value="Poseidon"
-        />
-        <label for="Poseidon">Poséidon</label>
-      </div>
-
-      <h1 v-show="answer">Your answer: {{ answer }}</h1>
-
-      <div class="btn-container">
-        <button @click="toggle()">Valider</button>
-      </div>
-    </section>
-  </Transition>
-
-  <Transition name="slide">
-    <section v-if="!show && cardNb === 4" class="content-container">
-      <p>
-        3ème question pour récupérer ma lettre de recommandation !
-      </p>
-      <p>Quelle directive permet de faire du rendu conditionnel avec VueJS?</p>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="v-bind"
-          id="v-bind"
-          value="v-bind"
-        />
-        <label for="v-bind">v-bind</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="v-for"
-          id="v-for"
-          value="v-for"
-        />
-        <label for="v-for">v-for</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="v-text"
-          id="v-text"
-          value="v-text"
-        />
-        <label for="v-text">v-text</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="v-if"
-          id="v-if"
-          value="v-if"
-        />
-        <label for="v-if">v-if</label>
-      </div>
-
-      <h1 v-show="answer">Your answer: {{ answer }}</h1>
-
-      <div class="btn-container">
-        <button @click="toggle()">Valider</button>
-      </div>
-    </section>
-  </Transition>
-
-  <Transition name="slide">
-    <section v-if="show && cardNb === 5" class="content-container">
-      <p>
-        4ème et dernière question ! Pour récupérer mes disponibilités !
-      </p>
-      <p>Le Saint-Julien est un vin de ...?</p>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="Loire"
-          id="Loire"
-          value="Loire"
-        />
-        <label for="Loire">Loire</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="Bourgogne"
-          id="Bourgogne"
-          value="Bourgogne"
-        />
-        <label for="Bourgogne">Bourgogne</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="Bordeaux"
-          id="Bordeaux"
-          value="Bordeaux"
-        />
-        <label for="Bordeaux">Bordeaux</label>
-      </div>
-
-      <div class="input-and-label-container">
-        <input
-          type="radio"
-          v-model="answer"
-          name="Franche-comté"
-          id="Franche-comté"
-          value="Franche-comté"
-        />
-        <label for="Franche-comté">Franche-comté</label>
-      </div>
-
-      <h1 v-show="answer">Your answer: {{ answer }}</h1>
-
-      <div class="btn-container">
-        <button @click="toggle()">Valider</button>
-      </div>
-    </section>
-  </Transition>
-
-  <Transition name="slide">
-    <section v-if="!show && cardNb === 6" class="content-container">
-      <p>
-        Bravo ! Vous êtes arrivés jusqu'au bout de ce quiz! Pas trop dur? (Ne
-        répondez pas, je ne vous entend pas...)
-      </p>
-      <p>
-        Si jamais les téléchargement n'ont pas fonctionné, vous pouvez appuyer
-        sur le bouton "Télécharger les documents" (On ne sait jamais hein?)
-      </p>
-
-      <div class="btn-container">
-        <button @click="console.log('ntm')">Télécharger les documents</button>
-      </div>
+    <section v-if="dsplInfo.slideNb === 6" class="content-container">
+      <LastSlide />
     </section>
   </Transition>
 </template>
