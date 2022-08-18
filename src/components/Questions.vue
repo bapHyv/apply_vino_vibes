@@ -3,60 +3,67 @@ import { ref } from 'vue'
 
 const props = defineProps({
   dsplInfo: { type: Object, required: true },
-  validate: { type: Function, required: true },
   toggle: { type: Function, required: true },
 })
 
 const displayData = ref([
   {
-    title:
-      'SUPER !! Vous avez donc envie de faire ce quiz ! 1ère question pour récupérer mon CV !',
+    title: 'Question n°1 pour recuperer mon cv !',
     question:
-      "Quelle est la méthode JS qui supprime le dernier élément d'un tableau et le renvoie ?",
+      "Quelle est la methode JS qui supprime le dernier element d'un tableau et le renvoie ?",
     inputsValues: ['push', 'shift', 'pop', 'unshift'],
   },
   {
-    title: '2ème question pour récupérer ma lettre de motivation !',
-    question: 'Quel est le nom du dieu grec du vin et de la fête ?',
+    title: 'Question n°2 pour recuperer ma lettre de motivation !',
+    question: 'Quel est le nom du dieu grec du vin et de la fete ?',
     inputsValues: ['Zeus', 'Dionysos', 'Eros', 'Poseidon'],
   },
   {
-    title: '3ème question pour récupérer ma lettre de recommandation !',
+    title: 'Question n°3 pour recuperer ma lettre de recommandation !',
     question:
       'Quelle directive permet de faire du rendu conditionnel avec VueJS ?',
     inputsValues: ['v-bind', 'v-for', 'v-text', 'v-if'],
   },
   {
-    title: '4ème et dernière question ! Pour récupérer mes disponibilités !',
+    title: '4eme et dernière question ! Pour recuperer mes disponibilites !',
     question: 'Le Saint-Julien est un vin de ... ?',
     inputsValues: ['Loire', 'Bourgogne', 'Bordeaux', 'Franche-comté'],
   },
 ])
+
+const unsetWrongValue = (inputValue) => {
+  if (inputValue != props.dsplInfo.answer) {
+    props.dsplInfo.wrong = false
+  }
+}
 </script>
 
 <template>
-  <p>
+  <p class="first-p">
     {{ displayData[dsplInfo.arrayIndex].title }}
   </p>
-  <p>
+  <p class="second-p">
     {{ displayData[dsplInfo.arrayIndex].question }}
   </p>
-  <div
-    v-for="inputValue in displayData[dsplInfo.arrayIndex].inputsValues"
-    :key="inputValue"
-    class="input-and-label-container"
-  >
-    <input
-      type="radio"
-      v-model="dsplInfo.answer"
-      :name="inputValue"
-      :id="inputValue"
-      :value="inputValue"
-    />
-    <label :for="inputValue">{{ inputValue }}</label>
+  <div class="inputs-container">
+    <div class="straight-container">
+      <div
+        v-for="inputValue in displayData[dsplInfo.arrayIndex].inputsValues"
+        :key="inputValue"
+        class="input-and-label-container"
+      >
+        <input
+          type="radio"
+          v-model="dsplInfo.answer"
+          :name="inputValue"
+          :id="inputValue"
+          :value="inputValue"
+          @click="unsetWrongValue(inputValue)"
+        />
+        <label class="label-text" :for="inputValue">{{ inputValue }}</label>
+      </div>
+    </div>
   </div>
-
-  <h1 v-show="dsplInfo.answer">Your answer: {{ dsplInfo.answer }}</h1>
 
   <div class="btn-container">
     <button @click="toggle()">Valider</button>

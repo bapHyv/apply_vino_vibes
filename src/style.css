@@ -1,0 +1,144 @@
+@font-face {
+  font-family: 'Quicksand-Light';
+  src: url('./assets/fonts/Quicksand-Light.eot') format('eot'),
+    url('./assets/fonts/Quicksand-Light.ttf') format('ttf'),
+    url('./assets/fonts/Quicksand-Light.woff') format('woff'),
+    url('./assets/fonts/Quicksand-Light.woff2') format('woff2');
+}
+
+body {
+  font-family: 'Quicksand-Light';
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size: 20px;
+  background-color: #111;
+  color: white;
+}
+
+p {
+  text-align: center;
+}
+
+button {
+  letter-spacing: 2px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 25px;
+  font-weight: inherit;
+  border-radius: 10px;
+  text-transform: uppercase;
+}
+
+.first-p {
+  font-size: 40px;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #0fa, 0 0 42px #0fa;
+}
+
+/* .first-p::after {
+    content: '';
+    display: block;
+    margin-top: 10px;
+    width: 15px;
+    height: 2px;
+    background-color: #fff;
+    animation-name: move-right-and-left;
+    animation-duration: 1s;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  } */
+
+.second-p {
+  font-size: 25px;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px rgb(255, 0, 170),
+    0 0 42px rgb(255, 0, 170);
+}
+
+.third-p,
+.label-text {
+  font-size: 20px;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px rgb(0, 89, 255),
+    0 0 42px rgb(0, 89, 255);
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  background-color: #111;
+  padding: 20px;
+  color: white;
+  margin: 0px 20px;
+}
+
+.btn-container :first-child {
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #0fa, 0 0 42px #0fa;
+  border: 1px solid white;
+  box-shadow: 0px 0px 10px #0fa;
+}
+
+.btn-container :first-child:hover {
+  background-color: #0fa;
+  color: #111;
+  text-shadow: none;
+  transition-duration: 0.3s;
+}
+
+.btn-container :nth-child(2) {
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px red, 0 0 42px red;
+}
+
+.btn-container :nth-child(2):hover {
+  background-color: red;
+  color: #111;
+  text-shadow: none;
+  transition-duration: 0.3s;
+}
+
+.inputs-container {
+  block-size: 30%;
+  display: flex;
+  justify-content: center;
+}
+
+.straight-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.wrong {
+  /* box-shadow: 0px 0px 20px red; */
+  border-radius: 10px;
+  animation-name: flash;
+  animation-duration: 80ms;
+  animation-direction: alternate;
+  animation-timing-function: linear;
+  animation-iteration-count: 5;
+  /* animation-fill-mode: forwards; */
+}
+
+@keyframes flash {
+  from {
+    box-shadow: 0px 0px 10px red;
+  }
+
+  to {
+    box-shadow: 0px 0px 40px red;
+    margin-left: 3px;
+  }
+}
+
+/* @keyframes move-right-and-left {
+    from {
+      margin-left: 10%;
+    }
+  
+    to {
+      margin-left: 90%;
+    }
+  } */
